@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'router.dart' as router;
+
+var log = Logger(level: Level.verbose);
 
 class MainState extends ChangeNotifier {
   MainState();
 }
 
 void main() {
+  Logger.level = Level.verbose;
   runApp(
     MultiProvider(
       providers: [

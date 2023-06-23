@@ -1,16 +1,19 @@
-# rakuten_books_viewer
+# Rakuten Books Viewer
 
-A new Flutter project.
+## 概要
 
-## Getting Started
+楽天booksさんのapiを使って、本の情報を閲覧できるアプリ。
 
-This project is a starting point for a Flutter application.
+## 使い方
 
-A few resources to get you started if this is your first Flutter project:
+### 準備
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+概要にある通り、楽天booksさんのapiを利用する。そのためには、楽天さんの会員登録をして、そのあと、application idというものを取得する必要がある。取得できたら、それをこのプログラムのlib/application_id_org.dartというファイルの中に記述してある、applicationId=""というところがあるので、そこに取得したapplication idを転記し、ファイル名から_orgを消して、application_id.dartというファイル名にする。
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 実行
+
+次のコマンドより実行。
+
+```sh
+flutter run
+```
