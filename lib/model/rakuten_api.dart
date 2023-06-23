@@ -1,3 +1,1 @@
-class RakutenApi {
-  Future<void> getAll
-}
+class RakutenApi {}
