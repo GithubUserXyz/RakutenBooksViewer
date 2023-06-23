@@ -20,6 +20,12 @@ flutter run
 
 ## その他
 
+### 利用API
+
+#### 楽天ブックス書籍検索API
+
+https://webservice.rakuten.co.jp/documentation/books-book-search
+
 ### プロジェクト作成
 
 このプロジェクト作成には次のコマンドを使用した。
