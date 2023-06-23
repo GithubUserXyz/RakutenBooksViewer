@@ -17,3 +17,15 @@
 ```sh
 flutter run
 ```
+
+## その他
+
+### プロジェクト作成
+
+このプロジェクト作成には次のコマンドを使用した。
+
+```sh
+flutter create --org com.zpiyo rakuten_books_viewer
+```
+
+orgの指定により、後からパッケージ名を指定する必要はない。
