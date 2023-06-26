@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:rakuten_books_viewer/model/rakuten_api.dart';
+import 'main_state.dart';
 import 'router.dart' as router;
 
 var log = Logger(level: Level.verbose);
 
-class MainState extends ChangeNotifier {
-  MainState();
-}
-
 void main() {
+  // ログレベルの設定
   Logger.level = Level.verbose;
+
+  // Repository,API
+  GetIt.instance.registerLazySingleton(() => RakutenApi());
+
+  // Appの実行
   runApp(
     MultiProvider(
       providers: [
@@ -26,6 +31,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<MainState>(context).getItems("太陽");
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,
