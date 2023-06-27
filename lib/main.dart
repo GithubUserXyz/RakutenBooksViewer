@@ -15,11 +15,17 @@ void main() {
   // Repository,API
   GetIt.instance.registerLazySingleton(() => RakutenApi());
 
+  // MainState
+  GetIt.instance.registerLazySingleton(() => MainState());
+
+  // 初期化
+  GetIt.I<MainState>().getItems("太陽");
+
   // Appの実行
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<MainState>(create: (context) => MainState()),
+        ChangeNotifierProvider<MainState>.value(value: GetIt.I<MainState>()),
       ],
       child: const MyApp(),
     ),
@@ -31,7 +37,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<MainState>(context).getItems("太陽");
     return MaterialApp.router(
       theme: ThemeData(
         primarySwatch: Colors.blue,
