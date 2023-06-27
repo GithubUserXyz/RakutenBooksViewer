@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 
 import 'main_state.dart';
@@ -19,7 +20,7 @@ class HomePage extends StatelessWidget {
     }
     return RefreshIndicator(
       onRefresh: () async {
-        //Provider.of<MainState>(context).getItems("太陽");
+        await GetIt.I<MainState>().getItems("太陽");
       },
       child: GridView.builder(
         itemCount: gridItems,
