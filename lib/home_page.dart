@@ -15,6 +15,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //if (GetIt.I<MainState>().listItems.isEmpty) {
     if (Provider.of<MainState>(context).listItems.isEmpty) {
       return const Center(child: Text('リストが空です'));
     }
