@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:rakuten_books_viewer/widgets/search_widget.dart';
 
-import 'main_state.dart';
+import '../main_state.dart';
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
