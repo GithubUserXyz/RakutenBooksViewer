@@ -19,7 +19,7 @@ void main() {
   GetIt.instance.registerLazySingleton(() => MainState());
 
   // 初期化
-  GetIt.I<MainState>().getItems("太陽");
+  //GetIt.I<MainState>().getItems("太陽");
 
   // Appの実行
   runApp(

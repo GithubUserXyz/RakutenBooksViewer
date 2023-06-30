@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:rakuten_books_viewer/widgets/search_widget.dart';
 
 import 'main_state.dart';
 
@@ -8,8 +9,6 @@ import 'main_state.dart';
 class HomePage extends StatelessWidget {
   static String routeName = '/';
   static String screenName = 'Home';
-
-  final int gridItems = 30;
 
   const HomePage({super.key});
 
@@ -21,14 +20,15 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildBody(BuildContext context) {
+    /*
     //if (GetIt.I<MainState>().listItems.isEmpty) {
     if (Provider.of<MainState>(context).listItems.isEmpty) {
-      return const Center(child: Text('リストが空です'));
-    }
+      return const Center(
+        child: Text('リストが空です'),
+      );
+    }*/
     return RefreshIndicator(
-      onRefresh: () async {
-        await GetIt.I<MainState>().getItems("太陽");
-      },
+      onRefresh: () async {},
       //child: _buildSearchBar(context),
       //child: _buildGridView(context),
       child: SizedBox(
@@ -36,16 +36,21 @@ class HomePage extends StatelessWidget {
         width: double.infinity,
         child: Stack(
           children: <Widget>[
-            // 本の一覧
-            SingleChildScrollView(
-              child: _buildGridView(context),
-            ),
+            Provider.of<MainState>(context).listItems.isEmpty
+                ?
+                // 空の場合
+                const Center(child: Text('リストは空です'))
+                :
+                // 本の一覧
+                SingleChildScrollView(
+                    child: _buildGridView(context),
+                  ),
             // 検索
             Positioned.fill(
               top: 14,
               child: Align(
                 alignment: Alignment.topCenter,
-                child: _buildSearchBar(context),
+                child: SearchWidget(),
               ),
             ),
           ],
@@ -57,7 +62,9 @@ class HomePage extends StatelessWidget {
   Widget _buildGridView(BuildContext context) {
     return GridView.builder(
       shrinkWrap: true,
-      itemCount: gridItems,
+      itemCount: GetIt.I<MainState>().listItems.length >= 30
+          ? 30
+          : GetIt.I<MainState>().listItems.length,
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 3,
         childAspectRatio: 0.7,
@@ -71,20 +78,6 @@ class HomePage extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildSearchBar(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(30),
-      ),
-      height: 70,
-      width: MediaQuery.of(context).size.width - 70,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
-      //color: Colors.white,
-      child: const TextField(),
     );
   }
 }
