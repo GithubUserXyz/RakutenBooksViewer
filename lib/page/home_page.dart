@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:rakuten_books_viewer/model/rakuten_api.dart';
+import 'package:rakuten_books_viewer/widgets/item_book.dart';
 import 'package:rakuten_books_viewer/widgets/search_widget.dart';
 
 import '../main_state.dart';
+
+var logger = Logger();
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
@@ -43,7 +48,8 @@ class HomePage extends StatelessWidget {
                 :
                 // 本の一覧
                 SingleChildScrollView(
-                    child: _buildGridView(context),
+                    child: _buildListView(context),
+                    //child: _buildGridView(context),
                   ),
             // 検索
             Positioned.fill(
@@ -70,14 +76,40 @@ class HomePage extends StatelessWidget {
         childAspectRatio: 0.7,
       ),
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.all(0.0),
-          child: Image.network(
-            Provider.of<MainState>(context).listItems[index].largeImageUrl,
-            fit: BoxFit.cover,
+        return ContainerBook(
+            item: Provider.of<MainState>(context).listItems[index]);
+      },
+    );
+  }
+
+  Widget _buildListView(BuildContext context) {
+    List<Row> listItem = [];
+
+    int maxNum = GetIt.I<MainState>().listItems.length >= 30
+        ? 30
+        : GetIt.I<MainState>().listItems.length;
+
+    for (int i = 0; i < maxNum; i++) {
+      if (i % 3 == 0) {
+        logger.v("add Row");
+        listItem.add(
+          // ignore: prefer_const_constructors
+          Row(
+            // ignore: prefer_const_literals_to_create_immutables
+            children: <Widget>[],
           ),
         );
-      },
+      }
+      RakutenBooksItem item = Provider.of<MainState>(context).listItems[i];
+      listItem[i ~/ 3].children.add(ContainerBook(
+            item: item,
+            width: MediaQuery.of(context).size.width / 3,
+          ));
+    }
+
+    return ListView(
+      shrinkWrap: true,
+      children: listItem,
     );
   }
 }
