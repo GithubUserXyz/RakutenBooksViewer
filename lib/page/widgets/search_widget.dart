@@ -52,7 +52,7 @@ class SearchWidget extends StatelessWidget {
               await _searchState.search(value);
             },
             controller: _searchState.searchField,
-            decoration: const InputDecoration(hintText: 'here...'),
+            decoration: const InputDecoration(hintText: '本を探す...'),
           ),
         ),
       ),

@@ -1,6 +1,13 @@
 import 'dart:math';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rakuten_books_viewer/model/rakuten_api.dart';
+
+// 画像をぼかすかどうか
+const _filterd = true;
+// ImageFilterで使用される
+const _sigmaX = 10.0;
+const _sigmaY = 10.0;
 
 // ignore: must_be_immutable
 class ContainerBook extends StatelessWidget {
@@ -36,28 +43,33 @@ class ContainerBook extends StatelessWidget {
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30.0),
-                  child: Image.network(
-                    item.largeImageUrl,
-                    fit: BoxFit.cover,
-                    /*
-                height: double.infinity,
-                width: double.infinity,*/
-                  ),
+                  child: drawImage(context),
                 ),
               ),
             ),
           ),
         ],
       ),
-      /*
-      child: Column(
-        children: [
-          Image.network(
-            item.largeImageUrl,
-            fit: BoxFit.fill,
-          ),
-        ],
-      ),*/
     );
+  }
+
+  Widget drawImage(BuildContext context) {
+    // _filterdがtrueの場合はImageを子要素として持つImageFilterdを返し
+    // falseの場合はImageをそのままかえす
+    return _filterd
+        ? ImageFiltered(
+            imageFilter: ImageFilter.blur(
+              sigmaX: _sigmaX,
+              sigmaY: _sigmaY,
+            ),
+            child: Image.network(
+              item.largeImageUrl,
+              fit: BoxFit.cover,
+            ),
+          )
+        : Image.network(
+            item.largeImageUrl,
+            fit: BoxFit.cover,
+          );
   }
 }
