@@ -3,8 +3,8 @@ import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:rakuten_books_viewer/model/rakuten_api.dart';
-import 'package:rakuten_books_viewer/widgets/item_book.dart';
-import 'package:rakuten_books_viewer/widgets/search_widget.dart';
+import 'package:rakuten_books_viewer/page/widgets/item_book.dart';
+import 'package:rakuten_books_viewer/page/widgets/search_widget.dart';
 
 import '../main_state.dart';
 
