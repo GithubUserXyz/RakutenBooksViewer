@@ -7,29 +7,43 @@ import 'package:rakuten_books_viewer/application_id.dart';
 
 import '../main.dart';
 
+String _columnTitle = 'title';
+String _columnItemUrl = 'itemUrl';
+String _columnLargeImageUrl = 'largeImageUrl';
+String _columnAuthor = 'author';
+String _columnPublisherName = 'publisherName';
+
 class RakutenBooksItem {
   String title;
   String itemUrl;
   String largeImageUrl;
+  String author;
+  String publisherName;
 
   RakutenBooksItem({
     required this.title,
     required this.itemUrl,
     required this.largeImageUrl,
+    required this.author,
+    required this.publisherName,
   });
 
   factory RakutenBooksItem.fromJson(Map<String, dynamic> json) {
     return RakutenBooksItem(
-        title: json["title"],
-        itemUrl: json["itemUrl"],
-        largeImageUrl: json["largeImageUrl"]);
+        title: json[_columnTitle],
+        itemUrl: json[_columnItemUrl],
+        largeImageUrl: json[_columnLargeImageUrl],
+        author: json[_columnAuthor],
+        publisherName: json[_columnPublisherName]);
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data["title"] = title;
-    data["itemUrl"] = itemUrl;
-    data["largeImageUrl"] = largeImageUrl;
+    data[_columnTitle] = title;
+    data[_columnItemUrl] = itemUrl;
+    data[_columnLargeImageUrl] = largeImageUrl;
+    data[_columnAuthor] = author;
+    data[_columnPublisherName] = publisherName;
     return data;
   }
 }
