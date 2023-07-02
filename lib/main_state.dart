@@ -22,4 +22,17 @@ class MainState extends ChangeNotifier {
     }*/
     logger.v(_listItems.length.toString());
   }
+
+  Future<void> getItemsOrderByReleaseDate(String title, bool orderFlag) async {
+    logger.v(title);
+    _listItems = [];
+    await GetIt.I<RakutenApi>()
+        .searchBooksByTitleOrderByReleaseDate(title, orderFlag, _listItems);
+    notifyListeners();
+    /*
+    for (RakutenBooksItem item in _listItems) {
+      logger.v(item.title);
+    }*/
+    logger.v(_listItems.length.toString());
+  }
 }

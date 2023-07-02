@@ -70,4 +70,34 @@ class RakutenApi {
     }
     return response;
   }
+
+  Future<Response> searchBooksByTitleOrderByReleaseDate(
+      String title, bool orderFlag, List<RakutenBooksItem> listItems) async {
+    // 並び順が新しいもの順か古いもの順かを格納する変数
+    String _sort;
+    // trueの場合は新しいもの順
+    if (orderFlag == true) {
+      _sort = '-releaseDate';
+    }
+    // それ以外(false)の場合は古いもの順
+    else {
+      _sort = '+releaseDate';
+    }
+    var url = Uri.https(
+        "app.rakuten.co.jp",
+        "/services/api/BooksBook/Search/20170404",
+        {'applicationId': applicationId, 'title': title, 'sort': _sort});
+    var response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      //log.d(response.body);
+      Map<String, dynamic> res = jsonDecode(utf8.decode(response.bodyBytes));
+      for (var json in res["Items"]) {
+        listItems.add(RakutenBooksItem.fromJson(json["Item"]));
+      }
+    } else {
+      log.d('erro ${{response.statusCode}}');
+    }
+    return response;
+  }
 }

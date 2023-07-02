@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
+
+import 'search_page.dart';
 
 var logger = Logger();
 
@@ -13,13 +16,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildBody(context),
+      //body: _buildBody(context),
+      body: _buildSearchPageLink(context),
     );
   }
 
   Widget _buildBody(BuildContext context) {
+    return Text('');
+  }
+
+  Widget _buildSearchPageLink(BuildContext context) {
     return Center(
-      child: Text(screenName),
+      child: TextButton(
+        onPressed: () {
+          context.push('/${SearchPage.routeName}');
+        },
+        child: Text(screenName),
+      ),
     );
   }
 }
