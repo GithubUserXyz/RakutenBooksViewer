@@ -6,7 +6,8 @@
 
 ## 進捗状況
 
-![Uploading 2023-07-02 19-34-51.gif…]()
+![out](https://user-images.githubusercontent.com/124037274/250350201-d5d86167-5106-49d1-9dea-a72737671bb8.gif)
+
 
 ## 使い方
 
