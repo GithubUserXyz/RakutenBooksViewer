@@ -8,7 +8,7 @@ import 'router.dart' as router;
 
 var log = Logger(level: Level.verbose);
 
-void main() {
+void main() async {
   // ログレベルの設定
   Logger.level = Level.verbose;
 
@@ -19,7 +19,7 @@ void main() {
   GetIt.instance.registerLazySingleton(() => MainState());
 
   // 初期化
-  //GetIt.I<MainState>().getItems("太陽");
+  await GetIt.I<MainState>().getItemsOrderByReleaseDate("太陽", true);
 
   // Appの実行
   runApp(

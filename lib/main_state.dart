@@ -9,6 +9,9 @@ class MainState extends ChangeNotifier {
   List<RakutenBooksItem> _listItems = [];
   List<RakutenBooksItem> get listItems => _listItems;
 
+  List<RakutenBooksItem> _latestItems = [];
+  List<RakutenBooksItem> get latestItems => _latestItems;
+
   MainState();
 
   Future<void> getItems(String title) async {
@@ -21,5 +24,18 @@ class MainState extends ChangeNotifier {
       logger.v(item.title);
     }*/
     logger.v(_listItems.length.toString());
+  }
+
+  Future<void> getItemsOrderByReleaseDate(String title, bool orderFlag) async {
+    logger.v(title);
+    _latestItems = [];
+    await GetIt.I<RakutenApi>()
+        .searchBooksByTitleOrderByReleaseDate(title, orderFlag, _latestItems);
+    notifyListeners();
+    /*
+    for (RakutenBooksItem item in _listItems) {
+      logger.v(item.title);
+    }*/
+    logger.v(_latestItems.length.toString());
   }
 }

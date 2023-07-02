@@ -31,4 +31,27 @@ void main() {
     log.d(apiResponse.genreInformation);
     log.d(listItems[0].title);
   });
+
+  test('search books by title order by release date', () async {
+    List<RakutenBooksItem> listItems = [];
+    log.d("search books by title");
+    var rakutenApi = RakutenApi();
+    Response response = await rakutenApi.searchBooksByTitleOrderByReleaseDate(
+        "太陽", true, listItems);
+    //log.d(response.body);
+    log.d("${response.statusCode}");
+    Map<String, dynamic> res = jsonDecode(utf8.decode(response.bodyBytes));
+    log.d(res);
+    log.d(res['count']);
+    for (var value in res['Items']) {
+      log.d(value['Item']['title']);
+
+      listItems.add(RakutenBooksItem.fromJson(value['Item']));
+    }
+    log.d(listItems.toString());
+
+    RakutenApiResponse apiResponse = RakutenApiResponse.fromJson(res);
+    log.d(apiResponse.genreInformation);
+    log.d(listItems[0].title);
+  });
 }

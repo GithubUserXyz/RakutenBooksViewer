@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:rakuten_books_viewer/model/rakuten_api.dart';
 
-// 画像をぼかすかどうか
+// 画像をぼかすかどうか(trueでぼかし)
 const _filterd = true;
 // ImageFilterで使用される
 const _sigmaX = 10.0;
