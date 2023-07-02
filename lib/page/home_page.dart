@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -9,6 +11,12 @@ import '../model/rakuten_api.dart';
 import 'search_page.dart';
 
 var logger = Logger();
+
+// 画像をぼかすかどうか
+const _filterd = true;
+// ImageFilterで使用される
+const _sigmaX = 10.0;
+const _sigmaY = 10.0;
 
 // ignore: must_be_immutable
 class HomePage extends StatelessWidget {
@@ -121,23 +129,24 @@ class LatestCard extends StatelessWidget {
   // 角を丸くするときに使う値
   final double _radius = 15;
 
+  // ボーダーのサイズ
+  final double _borderSize = 1;
+
   // 横幅に対する縦の長さの倍
   static double ratio = 0.4;
 
   double width;
   late double height;
-  late double paddingWidth;
-  late double paddingHeight;
+  late double paddingSize;
 
   LatestCard({super.key, required this.item, this.width = 300}) {
     height = width * ratio;
-    paddingWidth = width * 0.05;
-    paddingHeight = paddingWidth * 0.5;
+    paddingSize = width * 0.05;
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(paddingWidth),
+      padding: EdgeInsets.all(paddingSize),
       width: width,
       height: height,
       child: Stack(
@@ -150,7 +159,10 @@ class LatestCard extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(_radius),
-                  border: Border.all(color: Colors.grey),
+                  border: Border.all(
+                    color: Colors.grey,
+                    width: _borderSize,
+                  ),
                   boxShadow: const [
                     BoxShadow(
                       color: Colors.black12,
@@ -161,12 +173,46 @@ class LatestCard extends StatelessWidget {
                   ],
                   color: Colors.white,
                 ),
-                child: const Center(child: Text('a')),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(_radius),
+                  child: _buildBoxContent(context),
+                ),
               ),
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildBoxContent(BuildContext context) {
+    // paddingSizeを除いたの高さ(このコンテンツ領域の高さ)
+    double contentHeight = height - paddingSize * 2 - _borderSize * 2;
+    double contentWidth = width - paddingSize * 2 - _borderSize * 2;
+    return Row(
+      children: [
+        Image.network(
+          item.largeImageUrl,
+          fit: BoxFit.cover,
+          height: contentHeight,
+          width: (contentHeight / sqrt(2)),
+        ),
+        Container(
+          width: contentWidth - (contentHeight / sqrt(2)),
+          height: contentHeight,
+          child: Column(
+            children: [
+              Center(
+                child: Text(
+                  item.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
