@@ -20,6 +20,9 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('検索'),
+      ),
       body: _buildBody(context),
     );
   }
@@ -41,7 +44,12 @@ class SearchPage extends StatelessWidget {
                 :
                 // 本の一覧
                 SingleChildScrollView(
-                    child: _buildListView(context),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 100),
+                        _buildListView(context),
+                      ],
+                    ),
                     //child: _buildGridView(context),
                   ),
             // 検索

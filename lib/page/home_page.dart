@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +13,7 @@ import 'search_page.dart';
 
 var logger = Logger();
 
-// 画像をぼかすかどうか
+// 画像をぼかすかどうか(trueでぼかし)
 const _filterd = true;
 // ImageFilterで使用される
 const _sigmaX = 10.0;
@@ -28,10 +29,23 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(screenName)),
-      //body: _buildBody(context),
-      //body: _buildSearchPageLink(context),
-      body: const ShowLatestBooks(),
+      appBar: AppBar(
+        title: Text(screenName),
+        actions: <Widget>[
+          IconButton(
+              onPressed: () {
+                context.push('/${SearchPage.routeName}');
+              },
+              icon: const Icon(Icons.search))
+        ],
+      ),
+      // スクロールビューでコンテンツを表示
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: _buildContents(context),
+        ),
+      ),
     );
   }
 
@@ -44,6 +58,17 @@ class HomePage extends StatelessWidget {
         child: Text(SearchPage.screenName),
       ),
     );
+  }
+
+  List<Widget> _buildContents(BuildContext context) {
+    // 一覧で表示する内容を返す
+    List<Widget> contents = [];
+
+    contents.add(const Text('「太陽」の最新刊'));
+
+    contents.add(const ShowLatestBooks());
+
+    return contents;
   }
 }
 
@@ -189,7 +214,7 @@ class LatestCard extends StatelessWidget {
     // paddingSizeを除いたの高さ(このコンテンツ領域の高さ)
     double contentHeight = height - paddingSize * 2 - _borderSize * 2;
     double contentWidth = width - paddingSize * 2 - _borderSize * 2;
-    return Row(
+    var content = Row(
       children: [
         Image.network(
           item.largeImageUrl,
@@ -201,10 +226,25 @@ class LatestCard extends StatelessWidget {
           width: contentWidth - (contentHeight / sqrt(2)),
           height: contentHeight,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Center(
                 child: Text(
                   item.title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Center(
+                child: Text(
+                  item.author,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Center(
+                child: Text(
+                  item.publisherName,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -214,5 +254,16 @@ class LatestCard extends StatelessWidget {
         ),
       ],
     );
+
+    // 最後にぼかしをいれる処理を確認して、行うばあいはぼかしをいれる
+    return _filterd
+        ? ImageFiltered(
+            imageFilter: ImageFilter.blur(
+              sigmaX: _sigmaX,
+              sigmaY: _sigmaY,
+            ),
+            child: content,
+          )
+        : content;
   }
 }
