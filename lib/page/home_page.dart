@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:rakuten_books_viewer/page/widgets/slide_show_widget.dart';
 
 import '../main_state.dart';
 import '../model/rakuten_api.dart';
@@ -14,7 +15,7 @@ import 'search_page.dart';
 var logger = Logger();
 
 // 画像をぼかすかどうか(trueでぼかし)
-const _filterd = true;
+const _filterd = false;
 // ImageFilterで使用される
 const _sigmaX = 10.0;
 const _sigmaY = 10.0;
@@ -64,16 +65,35 @@ class HomePage extends StatelessWidget {
     // 一覧で表示する内容を返す
     List<Widget> contents = [];
 
+    // スライドビュー
+    // 一時的なアイテム
+    var _items = [
+      Container(color: Colors.green),
+      Container(color: Colors.blue),
+      Container(color: Colors.red),
+    ];
+    contents.add(SlideShowWidget(
+      items: _items,
+      height: 300,
+      width: double.infinity,
+    ));
+
+    // タイトル
     contents.add(const Text('「太陽」の最新刊'));
 
-    contents.add(const ShowLatestBooks());
+    // 最新刊のリストビュー
+    contents
+        .add(ShowLatestBooks(widgetWidth: MediaQuery.of(context).size.width));
 
     return contents;
   }
 }
 
+// ignore: must_be_immutable
 class ShowLatestBooks extends StatelessWidget {
-  const ShowLatestBooks({super.key});
+  ShowLatestBooks({super.key, required this.widgetWidth}) {
+    _maxRowNum = (widgetWidth ~/ 500) + 1;
+  }
 
   // 最新の本の表示件数の最大値
   final int _latestMaxNum = 15;
@@ -82,10 +102,12 @@ class ShowLatestBooks extends StatelessWidget {
   final int _maxColumnNum = 3;
 
   // Row(横)の列の最大値(ここの値で、画面に表示されている列数をかえる)
-  final int _maxRowNum = 2;
+  late int _maxRowNum;
 
   // リストの最初と最後にいれる空白の幅
   final double _spaceWidth = 50;
+
+  double widgetWidth;
 
   @override
   Widget build(BuildContext context) {
