@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
+import 'package:rakuten_books_viewer/page/widgets/slide_show_widget.dart';
 
 import '../main_state.dart';
 import '../model/rakuten_api.dart';
@@ -64,8 +65,23 @@ class HomePage extends StatelessWidget {
     // 一覧で表示する内容を返す
     List<Widget> contents = [];
 
+    // スライドビュー
+    // 一時的なアイテム
+    var _items = [
+      Container(color: Colors.green),
+      Container(color: Colors.blue),
+      Container(color: Colors.red),
+    ];
+    contents.add(SlideShowWidget(
+      items: _items,
+      height: 300,
+      width: double.infinity,
+    ));
+
+    // タイトル
     contents.add(const Text('「太陽」の最新刊'));
 
+    // 最新刊のリストビュー
     contents
         .add(ShowLatestBooks(widgetWidth: MediaQuery.of(context).size.width));
 
