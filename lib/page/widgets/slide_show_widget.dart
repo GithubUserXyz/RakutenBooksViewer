@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class SlideShowWidget extends StatefulWidget {
-  final List<Widget> items;
-  final double height;
-  final double width;
-  const SlideShowWidget({
+  final List<SlideShowItem> items;
+  double height = 0;
+  double width = 0;
+  SlideShowWidget({
     super.key,
     required this.items,
     required this.height,
@@ -33,6 +34,22 @@ class _SlideShowState extends State<SlideShowWidget> {
           return widget.items[index];
         },
       ),
+    );
+  }
+}
+
+class SlideShowItem extends StatelessWidget {
+  final Widget item;
+
+  const SlideShowItem({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: item,
     );
   }
 }
