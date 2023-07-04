@@ -67,10 +67,16 @@ class HomePage extends StatelessWidget {
 
     // スライドビュー
     // 一時的なアイテム
-    var _items = [
-      Container(color: Colors.green),
-      Container(color: Colors.blue),
-      Container(color: Colors.red),
+    List<SlideShowItem> _items = <SlideShowItem>[
+      SlideShowItem(
+        item: Container(color: Colors.green),
+      ),
+      SlideShowItem(
+        item: Container(color: Colors.blue),
+      ),
+      SlideShowItem(
+        item: Container(color: Colors.red),
+      ),
     ];
     contents.add(SlideShowWidget(
       items: _items,
